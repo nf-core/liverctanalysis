@@ -27,6 +27,7 @@ nextflow.enable.dsl = 2
 
 //WorkflowMain.initialise(workflow, params, log)
 
+
 /*
 ========================================================================================
     NAMED WORKFLOW FOR PIPELINE
