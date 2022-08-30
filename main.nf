@@ -4,7 +4,7 @@
     nf-core/liverctanalysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Github : https://github.com/nf-core/liverctanalysis
-    Website: https://nf-co.re/liverctanalysis
+Website: https://nf-co.re/liverctanalysis
     Slack  : https://nfcore.slack.com/channels/liverctanalysis
 ----------------------------------------------------------------------------------------
 */
