@@ -15,7 +15,7 @@
 //for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
-//if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
+//if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input path not specified!' }
 
 /*
 ========================================================================================
@@ -23,8 +23,8 @@
 ========================================================================================
 */
 
-//ch_multiqc_config        = file("$projectDir/assets/multiqc_config.yaml", checkIfExists: true)
-//ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multiqc_config) : Channel.empty()
+ch_report_config        = file("$projectDir/assets/report_config.yaml", checkIfExists: true)
+ch_report_custom_config = params.report_config ? Channel.fromPath(params.report_config) : Channel.empty()
 
 /*
 ========================================================================================
@@ -33,19 +33,19 @@
 */
 
 // Don't overwrite global params.modules, create a copy instead and use that within the main script.
-//def modules = params.modules.clone()
+def modules = params.modules.clone()
 
 //
 // MODULE: Local to the pipeline
 //
-//include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' addParams( options: [publish_files : ['tsv':'']] )
+include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' addParams( options: [publish_files : ['tsv':'']] )
 
 include { UNET_PRED } from '../modules/local/liver_ct_seg_functions' addParams( options: [:] )
 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-//include { INPUT_CHECK } from '../subworkflows/local/input_check' addParams( options: [:] )
+include { INPUT_CHECK } from '../subworkflows/local/input_check' addParams( options: [:] )
 
 /*
 ========================================================================================
@@ -59,8 +59,6 @@ include { UNET_PRED } from '../modules/local/liver_ct_seg_functions' addParams( 
 //
 // MODULE: Installed directly from nf-core/modules
 //
-//include { FASTQC  } from '../modules/nf-core/modules/fastqc/main'  addParams( options: modules['fastqc'] )
-//include { MULTIQC } from '../modules/nf-core/modules/multiqc/main' addParams( options: multiqc_options   )
 
 /*
 ========================================================================================
@@ -73,47 +71,29 @@ def multiqc_report = []
 
 workflow LIVERCTANALYSIS {
 
-    //ch_software_versions = Channel.empty()
+    ch_software_versions = Channel.empty()
 
     // hardcoded for testing, should be an input parameter
-    data = channel.fromPath('/Users/luiskuhn/research/nf_core/liver-ct-pipeline-repo/qbic_repos/liverctanalysis/assets/*.mrc')
-
-    UNET_PRED(data)
-
-    UNET_PRED.out.console_out.view()
-    UNET_PRED.out.all_mrc.view()
+    data = channel.fromPath('./assets/*.mrc')
 
     //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    // SUBWORKFLOW:
     //
     //INPUT_CHECK (
     //    ch_input
     //)
 
     //
-    // MODULE: Run FastQC
+    // MODULE:
     //
-    //FASTQC (
-    //    INPUT_CHECK.out.reads
-    //)
-    //ch_software_versions = ch_software_versions.mix(FASTQC.out.version.first().ifEmpty(null))
 
-    //
-    // MODULE: Pipeline reporting
-    //
-    //ch_software_versions
-    //    .map { it -> if (it) [ it.baseName, it ] }
-    //    .groupTuple()
-    //    .map { it[1][0] }
-    //    .flatten()
-    //    .collect()
-    //    .set { ch_software_versions }
+    UNET_PRED(data)
 
-    //GET_SOFTWARE_VERSIONS (
-    //    ch_software_versions.map { it }.collect()
-    //)
+    UNET_PRED.out.console_out.view()
+    UNET_PRED.out.all_mrc.view()
 
-    //
+
+    // e.g.
     // MODULE: MultiQC
     //
     //workflow_summary    = WorkflowLiverctanalysis.paramsSummaryMultiqc(workflow, summary_params)

@@ -25,11 +25,18 @@ process UNET_PRED {
     stdout emit: console_out
     path '*.mrc', emit: all_mrc
 
+    //TO-DO:
+    //liver-ct-seg-uncert -i $mrc_file -o ./ -t 2
+    //liver-ct-seg-feat-ggcam -i $mrc_file -o ./ -t 2 -f _feat_vol_2.mrc
+
     script:
     """
     echo $mrc_file
     liver-ct-seg-model-dl
     liver-ct-seg-pred -i $mrc_file -o ./
+    
     """
+    
+
 }
 
