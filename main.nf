@@ -13,11 +13,10 @@ nextflow.enable.dsl = 2
 
 /*
 ========================================================================================
-    GENOME PARAMETER VALUES
+    PARAMETER VALUES
 ========================================================================================
 */
 
-params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 
 /*
 ========================================================================================
@@ -25,7 +24,8 @@ params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 ========================================================================================
 */
 
-WorkflowMain.initialise(workflow, params, log)
+//WorkflowMain.initialise(workflow, params, log)
+
 
 /*
 ========================================================================================

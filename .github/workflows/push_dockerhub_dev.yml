@@ -1,0 +1,28 @@
+name: Docker container push (dev)
+# This builds docker images and pushes them to DockerHub
+# Runs (should) on nf-core repo releases and push event to 'dev' branch (PR merges)
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  push_dockerhub:
+    name: Push new Docker image to Docker Hub (dev)
+    runs-on: ubuntu-latest
+    # Only run for the nf-core repo, for releases and merged PRs
+    if: ${{ github.repository == 'luiskuhn/liverctanalysis' }}
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@v2
+
+      - name: Build new docker image for liver-ct-seg-pkg
+        run: docker build --no-cache ./modules/containers/liver_ct_seg/ -t luiskc/liverctseg:dev
+
+      - name: Push Docker image for liver-ct-seg-pkg to DockerHub (dev)
+        run: |
+          echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          docker push luiskc/liverctseg:dev
