@@ -34,9 +34,5 @@ process UNET_PRED {
     echo $mrc_file
     liver-ct-seg-model-dl
     liver-ct-seg-pred -i $mrc_file -o ./
-    
     """
-    
-
 }
-
