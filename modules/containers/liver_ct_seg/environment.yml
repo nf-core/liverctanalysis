@@ -15,8 +15,8 @@ dependencies:
   - mrcfile=1.3.0=pyh44b312d_0
   - pip
   - pip:
-    - pycuda==2019.1.2  # not on Conda
-    - cloudpickle==1.6.0
-    - boto3==1.17.7
-    - system-intelligence==2.0.2
-    - liver-ct-segmentation-package==1.6.0
+      - pycuda==2019.1.2 # not on Conda
+      - cloudpickle==1.6.0
+      - boto3==1.17.7
+      - system-intelligence==2.0.2
+      - liver-ct-segmentation-package==1.6.0
